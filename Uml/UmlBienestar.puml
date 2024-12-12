@@ -1,0 +1,47 @@
+@startuml
+
+class Usuario {
+    - nombre: String
+    - ID: int
+    - tipoUsuario: String
+    + verHorariosDisponibles(): void
+    + seleccionarHorario(): void
+}
+
+class CitaMedica {
+    - fecha: Date
+    - hora: Time
+    - estado: String
+    - doctorAsignado: String
+    + asignarCita(usuario: Usuario): void
+    + cancelarCita(): void
+    + modificarCita(nuevaFecha: Date, nuevaHora: Time): void
+}
+
+class ImplementoDeportivo {
+    - tipoImplemento: String
+    - estado: String
+    + actualizarEstado(nuevoEstado: String): void
+}
+
+class PrestamoImplemento {
+    - fechaPrestamo: Date
+    - horaPrestamo: Time
+    - usuario: Usuario
+    + registrarPrestamo(usuario: Usuario, implemento: ImplementoDeportivo): void
+    + registrarDevolucion(implemento: ImplementoDeportivo): void
+}
+
+class Administrador {
+    - recursosGestionados: List<String>
+    + gestionarRecursos(): void
+    + actualizarDisponibilidad(): void
+}
+
+Usuario "1" --> "n" CitaMedica : reserva
+Usuario "1" --> "n" PrestamoImplemento : solicita
+PrestamoImplemento "n" --> "1" ImplementoDeportivo : actualiza
+Administrador "1" --> "*" CitaMedica : controla
+Administrador "1" --> "*" ImplementoDeportivo : administra
+
+@enduml
